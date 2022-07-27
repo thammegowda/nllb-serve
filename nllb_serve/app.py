@@ -100,7 +100,7 @@ def attach_translate_route(
 
     @bp.route('/')
     def index():
-        args = dict(src_langs=src_langs, tgt_langs=tgt_langs,
+        args = dict(src_langs=src_langs, tgt_langs=tgt_langs, model_id=model_id,
                     def_src_lang=def_src_lang, def_tgt_lang=def_tgt_lang)
         return render_template('index.html', **args)
 

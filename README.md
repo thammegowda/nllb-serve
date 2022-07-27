@@ -7,7 +7,7 @@ This project offers a web interface and REST API to Meta's No Language Left Behi
 
 ```bash
 git clone  https://github.com/thammegowda/nllb-serve
-cd nllb-serve 
+cd nllb-serve
 pip install -e .
 
 # either one of these should work
@@ -75,3 +75,9 @@ $ curl -H "Content-Type: application/json" -X POST \
     http://localhost:6060/translate \
    --data '{"source": ["Comment allez-vous?"], "src_lang": "fra_Latn", "tgt_lang": "kan_Knda"}'
 ```
+
+## References
+* https://research.facebook.com/publications/no-language-left-behind/
+* https://huggingface.co/docs/transformers/main/en/model_doc/nllb
+* https://ai.facebook.com/research/no-language-left-behind/
+* https://github.com/facebookresearch/fairseq/tree/nllb/

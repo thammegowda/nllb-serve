@@ -2,15 +2,28 @@
 
 {% block content %}
 <div class="container-fluid">
-  <section>
+  <section class="container">
     <h2>{% block title %} About {% endblock %}</h2>
     <br />
-    This is a frontend to No Language Left Behind (NLLB) models from Meta/Facebook.
-    Please credit/cite the <a href="https://ai.facebook.com/research/no-language-left-behind/"> original work.</a>
-    <br/>
+    This is a frontend to No Language Left Behind (NLLB) models from Meta/Facebook. Please credit/cite the original
+    work: </a>
+    <ul>
+      <li><a
+          href="https://research.facebook.com/publications/no-language-left-behind/">https://research.facebook.com/publications/no-language-left-behind/</a>
+      </li>
+      <li><a
+          href="https://huggingface.co/docs/transformers/main/en/model_doc/nllb">https://huggingface.co/docs/transformers/main/en/model_doc/nllb</a>
+      </li>
+      <li><a
+          href="https://ai.facebook.com/research/no-language-left-behind/">https://ai.facebook.com/research/no-language-left-behind/</a>
+      </li>
+      <li><a
+          href="https://github.com/facebookresearch/fairseq/tree/nllb/">https://github.com/facebookresearch/fairseq/tree/nllb/</a>
+      </li>
+    </ul>
   </section>
 
-  <section>
+  <section class="container">
     <h2 id="rest-api">REST API</h2>
     <ul>
       <li><code>/translate</code> end point accepts GET and POST requests with the following args:<ul>
@@ -50,14 +63,10 @@
     </ol>
 
 
-
-
   </section>
-  <section>
+  <section class="container">
     <h2 id="sysinfo"> Sysyem Info</h2>
-    <div class="container">
-
-      <table class="table row">
+      <table class="table float-left">
         {% for key, value in sys_info.items() %}
         <tr>
           <th> {{ key }} </th>
@@ -66,7 +75,8 @@
         {% endfor %}
       </table>
 
-    </div>
   </section>
 </div>
+
+
 {% endblock %}

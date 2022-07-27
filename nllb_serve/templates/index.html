@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{% block title %} No Language Left Behind {% endblock %}</h1>
-
+<h1 class="text-center">{% block title %} No Language Left Behind {% endblock %}</h1>
+  <br/>
+  <p class="text-center">Currently serving <code>{{model_id}}</code></p>
+  <br/>
   <form id="source-form" class="form container" action="./translate">
   <div class="row">
     <div class="form-group col-5 ">
-      <label for="src_lang">From Language:</label>
-      <select class="form-control" id="src_lang">
+      <label for="src_lang" class="col-sm-2">From:</label>
+      <select class="form-control col-sm-3" id="src_lang" style="display: inline">
         {% for src_lang in src_langs %}
         <option {% if def_src_lang == src_lang %} selected {% endif %}>{{src_lang}} </option>
         {% endfor %}
       </select>
     </div>
-    <button id="button-swap" type="button" class="btn btn btn-outline col-1">Swap 🔁</i></button>
+    <button id="button-swap" type="button" class="btn btn btn-outline col-sml-1">Swap 🔁</i></button>
     <div class="form-group col-5">
-      <label for="tgt_lang">To Language:</label>
-      <select class="form-control" id="tgt_lang">
+      <label for="tgt_lang col-sm-2 col-form-label">To:</label>
+      <select class="form-control col-sm-3" id="tgt_lang" style="display: inline">
         {% for tgt_lang in tgt_langs %}
         <option {% if def_tgt_lang == tgt_lang %} selected {% endif %}>{{tgt_lang}}</option>
         {% endfor %}
@@ -113,8 +115,6 @@
       $('#target').val(src_txt)
     })
   }
-
-
 </script>
 
 {% endblock %}
