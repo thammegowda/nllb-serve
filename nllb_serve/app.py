@@ -145,7 +145,7 @@ def attach_translate_route(
 
         return flask.jsonify(jsonify(res))
 
-    @app.route('/about')
+    @bp.route('/about')
     def about():
         sys_info['CPU Memory Used'] = max_RSS()[1]
         return render_template('about.html', sys_info=sys_info)
