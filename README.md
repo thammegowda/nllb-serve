@@ -57,7 +57,7 @@ optional arguments:
   * `src_lang` -- source language ID, e.g., `eng_Latn`
   * `tgt_lang` -- target language ID, e.g., `eng_Latn`
  
-HTTP Clients can either send these parameters in three ways:
+HTTP Clients may send these parameters in three ways:
 1. Query parameters (GET)\
    For example:
    * http://0.0.0.0:6060/translate?source=I%20am%20testing&src_lang=eng_Latn&tgt_lang=fra_Latn
