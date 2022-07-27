@@ -26,8 +26,11 @@ python -m nllb_serve
 
 This starts a service on http://localhost:6060 by default.
 
+<img src="docs/webui-demo.png" width=600px/>
 
-Other options:
+
+
+**CLI options:**
 
 ```
 $ nllb-serve -h
@@ -56,7 +59,7 @@ optional arguments:
   * `source` -- source text. Can be a single string or a batch (i.e., list of strings)
   * `src_lang` -- source language ID, e.g., `eng_Latn`
   * `tgt_lang` -- target language ID, e.g., `eng_Latn`
- 
+
 HTTP Clients may send these parameters in three ways:
 1. Query parameters (GET)\
    For example:
