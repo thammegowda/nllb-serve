@@ -29,7 +29,7 @@ exp = None
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-bp = Blueprint('nmt', __name__, template_folder='templates')
+bp = Blueprint('nmt', __name__, template_folder='templates', static_folder='static')
 
 
 sys_info = {
