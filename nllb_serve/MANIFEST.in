@@ -1,0 +1,4 @@
+include README.md
+graft nllb_serve/static
+graft nllb_serve/templates
+global-exclude *.pyc

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+  <section>
+    <h2>{% block title %} About {% endblock %}</h2>
+    <br />
+    This is a frontend to No Language Left Behind (NLLB) models from Meta/Facebook.
+    Please credit/cite the <a href="https://ai.facebook.com/research/no-language-left-behind/"> original work.</a>
+    <br/>
+  </section>
+
+  <section>
+    <h2 id="rest-api">REST API</h2>
+    <ul>
+      <li><code>/translate</code> end point accepts GET and POST requests with the following args:<ul>
+          <li><code>source</code> -- source text. Can be a single string or a batch (i.e., list of strings)</li>
+          <li><code>src_lang</code> -- source language ID, e.g., <code>eng_Latn</code></li>
+          <li><code>tgt_lang</code> -- target language ID, e.g., <code>eng_Latn</code></li>
+        </ul>
+      </li>
+    </ul>
+    <p>HTTP Clients can either send these parameters in three ways:</p>
+    <ol>
+      <li>
+        <p>Query parameters (GET)<br>For example:</p>
+        <ul>
+          <li><a
+              href="http://0.0.0.0:6060/translate?source=I%20am%20testing&amp;src_lang=eng_Latn&amp;tgt_lang=fra_Latn">http://0.0.0.0:6060/translate?source=I%20am%20testing&amp;src_lang=eng_Latn&amp;tgt_lang=fra_Latn</a>
+          </li>
+          <li><a
+              href="http://0.0.0.0:6060/translate?source=I%20am%20testing&amp;src_lang=eng_Latn&amp;tgt_lang=fra_Latn&amp;source=another%20sentence">http://0.0.0.0:6060/translate?source=I%20am%20testing&amp;src_lang=eng_Latn&amp;tgt_lang=fra_Latn&amp;source=another%20sentence</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>URL encoded form (POST)</p>
+        <pre><code class="language-bash">$ curl --data &quot;source=Comment allez-vous?&quot; --data &quot;source=Bonne journée&quot; \
+--data &quot;src_lang=fra_Latn&quot; --data &quot;tgt_lang=eng_Latn&quot; \
+ http://localhost:6060/translate
+</code></pre>
+      </li>
+      <li>
+        <p>JSON body (POST)</p>
+        <pre><code class="language-bash">$ curl -H &quot;Content-Type: application/json&quot; -X POST \
+ http://localhost:6060/translate \
+--data &#39;{&quot;source&quot;: [&quot;Comment allez-vous?&quot;], &quot;src_lang&quot;: &quot;fra_Latn&quot;, &quot;tgt_lang&quot;: &quot;kan_Knda&quot;}&#39;
+</code></pre>
+      </li>
+    </ol>
+
+
+
+
+  </section>
+  <section>
+    <h2 id="sysinfo"> Sysyem Info</h2>
+    <div class="container">
+
+      <table class="table row">
+        {% for key, value in sys_info.items() %}
+        <tr>
+          <th> {{ key }} </th>
+          <td> {{ value }} </td>
+        </tr>
+        {% endfor %}
+      </table>
+
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} No Language Left Behind {% endblock %}</h1>
+
+  <form id="source-form" class="form container" action="./translate">
+  <div class="row">
+    <div class="form-group col-5 ">
+      <label for="src_lang">From Language:</label>
+      <select class="form-control" id="src_lang">
+        {% for src_lang in src_langs %}
+        <option {% if def_src_lang == src_lang %} selected {% endif %}>{{src_lang}} </option>
+        {% endfor %}
+      </select>
+    </div>
+    <button id="button-swap" type="button" class="btn btn btn-outline col-1">Swap 🔁</i></button>
+    <div class="form-group col-5">
+      <label for="tgt_lang">To Language:</label>
+      <select class="form-control" id="tgt_lang">
+        {% for tgt_lang in tgt_langs %}
+        <option {% if def_tgt_lang == tgt_lang %} selected {% endif %}>{{tgt_lang}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6 alert alert-primary">
+        <div class="form-group row">
+          <textarea id="source_txt" name="source" rows="6" class="form-control form-control-lg form-control-plaintext"
+            placeholder="Source Text Here..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary float-right">Translate→</button>
+    </div>
+    <div class="col-6 alert alert-success">
+      <div class="form-group row">
+        <textarea id='target' rows="6" class="form-control form-control-lg form-control-plaintext"
+          placeholder="Translation (to-appear)"></textarea>
+      </div>
+      <div id="loading-progress" style="display: none;" class="spinner-border text-success float-left" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <p class="text float-left" id="time-taken">...</p>
+      <button type="submit" class="btn btn-primary float-right btn-success" onclick="copyToClipboard()">Copy to
+        Clipboard</button>
+    </div>
+  </div>
+</form>
+
+<script>
+
+  function copyToClipboard() {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($("#target").text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+    console.log("Copied.. ")
+  }
+
+  window.onload = function () {
+    $(document).ajaxStart(function () {
+      $("#loading-progress").show();
+    });
+
+    $(document).ajaxStop(function () {
+      $("#loading-progress").hide();
+    });
+
+    $("#source-form").submit(function (event) {
+      event.preventDefault();
+      var $form = $(this),
+        url = $form.attr('action');
+      source = $('#source_txt').val().trim().split('\n')
+      src_lang = $('#src_lang').val()
+      tgt_lang = $('#tgt_lang').val()
+
+      data = JSON.stringify({
+        'source': source,
+        'src_lang': src_lang,
+        'tgt_lang': tgt_lang
+      })
+      console.log(data);
+
+      var posting = $.ajax(url, {
+        data: data,
+        contentType: 'application/json',
+        type: 'POST'
+      });
+
+      posting.done(function (data) {
+        $('#target').text(data.translation.join('\n'));
+        $('#time-taken').text('⏳' + data.time_taken + data.time_units);
+      });
+      posting.fail(function () {
+        alert("Something went wrong🤒! Check console logs.")
+        $('#target').text('');
+
+      });
+    });
+
+    $("#button-swap").click(function () {
+      console.log("swapping")
+      // langs
+      src_lang = $('#src_lang').val()
+      tgt_lang = $('#tgt_lang').val()
+      $('#src_lang').val(tgt_lang)
+      $('#tgt_lang').val(src_lang)
+      // swap text
+      src_txt = $('#source_txt').val().trim()
+      tgt_txt = $('#target').val().trim()
+      $('#source_txt').val(tgt_txt)
+      $('#target').val(src_txt)
+    })
+  }
+
+
+</script>
+
+{% endblock %}

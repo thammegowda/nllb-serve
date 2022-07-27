@@ -1,0 +1,2 @@
+transformers==4.21
+Flask==1.1

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}"
+        type="text/css">
+  <title>{% block title %} {% endblock %}</title>
+  {% block head %} {% endblock %}
+  <style type="text/css">
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    #wrap {
+      min-height: 100%;
+      height: auto !important;
+      height: 100%;
+      margin: 0 auto -30px; /* Bottom value must = footer height */
+    }
+    .pagefooter, .push {
+      width: 100%;
+      height: 30px;
+      position: relative;
+      bottom: 0;
+    }
+  </style>
+
+  {% if environ['GA_GTAG'] is defined %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{environ['GA_GTAG']}}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', "{{environ['GA_GTAG']}}");
+  </script>
+  {% endif %}
+</head>
+<body>
+<div id="wrap">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url_for('nmt.index')}}">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="about">About</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    {% block content %} {% endblock %}
+  </div>
+
+  <div class="push"></div>
+</div>
+
+<!-- style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2px; margin: 2px"-->
+<footer class="pagefooter alert-secondary" style="text-align: center">
+  <p class="font-weight-light float-none" style="margin: 0; padding: 3px"><small>Web App created by Thamme Gowda (2022 )</small></p>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{{url_for('static', filename='js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+</body>
+</html>
