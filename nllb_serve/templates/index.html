@@ -36,7 +36,7 @@
     </div>
     <div class="col-6 alert alert-success">
       <div class="form-group row">
-        <textarea id='target' rows="6" class="form-control form-control-lg form-control-plaintext"
+        <textarea id="target" rows="6" class="form-control form-control-lg form-control-plaintext"
           placeholder="Translation (to-appear)"></textarea>
       </div>
       <div id="loading-progress" style="display: none;" class="spinner-border text-success float-left" role="status">
@@ -60,6 +60,26 @@
     console.log("Copied.. ")
   }
 
+  var last_result = null
+  function update_view(result) {
+    console.log(result)
+    last_result = result
+    $('#target').val(result["translation"].join('\n'));
+    $('#time-taken').text('⏳' + result["time_taken"] + result.time_units);
+  }
+
+  function swap_direction() {
+    console.log("swapping...")
+    // langs
+    src_lang = $('#src_lang').val()
+    $('#src_lang').val($('#tgt_lang').val())
+    $('#tgt_lang').val(src_lang)
+    // swap text
+    src_txt = $('#source_txt').val().trim()
+    $('#source_txt').val($('#target').val().trim())
+    $('#target').val(src_txt)
+  }
+
   window.onload = function () {
     $(document).ajaxStart(function () {
       $("#loading-progress").show();
@@ -69,10 +89,11 @@
       $("#loading-progress").hide();
     });
 
+
     $("#source-form").submit(function (event) {
       event.preventDefault();
-      var $form = $(this),
-        url = $form.attr('action');
+      var $form = $(this)
+      url = $form.attr('action');
       source = $('#source_txt').val().trim().split('\n')
       src_lang = $('#src_lang').val()
       tgt_lang = $('#tgt_lang').val()
@@ -90,30 +111,14 @@
         type: 'POST'
       });
 
-      posting.done(function (data) {
-        $('#target').text(data.translation.join('\n'));
-        $('#time-taken').text('⏳' + data.time_taken + data.time_units);
-      });
+      posting.done(update_view)
       posting.fail(function () {
-        alert("Something went wrong🤒! Check console logs.")
+        alert("Something went wrong🤒! Check console logs.");
         $('#target').text('');
-
       });
     });
 
-    $("#button-swap").click(function () {
-      console.log("swapping")
-      // langs
-      src_lang = $('#src_lang').val()
-      tgt_lang = $('#tgt_lang').val()
-      $('#src_lang').val(tgt_lang)
-      $('#tgt_lang').val(src_lang)
-      // swap text
-      src_txt = $('#source_txt').val().trim()
-      tgt_txt = $('#target').val().trim()
-      $('#source_txt').val(tgt_txt)
-      $('#target').val(src_txt)
-    })
+    $("#button-swap").click(swap_direction)
   }
 </script>
 
