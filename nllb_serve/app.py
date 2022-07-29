@@ -159,9 +159,9 @@ def parse_args():
     parser.add_argument("-d", "--debug", action="store_true", help="Run Flask server in debug mode")
     parser.add_argument("-p", "--port", type=int, help="port to run server on", default=6060)
     parser.add_argument("-ho", "--host", help="Host address to bind.", default='0.0.0.0')
-    parser.add_argument("-b", "--base", help="Base prefix path for all the URLs")
+    parser.add_argument("-b", "--base", help="Base prefix path for all the URLs. E.g., /v1")
     parser.add_argument("-mi", "--model_id", type=str, default=DEF_MODEL_ID,
-                        help="max source len; longer seqs will be truncated")
+                        help="model ID; see https://huggingface.co/models?other=nllb")
     parser.add_argument("-msl", "--max-src-len", type=int, default=250,
                         help="max source len; longer seqs will be truncated")
     args = vars(parser.parse_args())

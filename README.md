@@ -34,7 +34,6 @@ This starts a service on http://localhost:6060 by default.
 
 ```
 $ nllb-serve -h
-
 usage: nllb-serve [-h] [-d] [-p PORT] [-ho HOST] [-b BASE] [-mi MODEL_ID] [-msl MAX_SRC_LEN]
 
 Deploy NLLB model to a RESTful server
@@ -45,9 +44,9 @@ optional arguments:
   -p PORT, --port PORT  port to run server on (default: 6060)
   -ho HOST, --host HOST
                         Host address to bind. (default: 0.0.0.0)
-  -b BASE, --base BASE  Base prefix path for all the URLs (default: None)
+  -b BASE, --base BASE  Base prefix path for all the URLs. E.g., /v1 (default: None)
   -mi MODEL_ID, --model_id MODEL_ID
-                        max source len; longer seqs will be truncated (default: facebook/nllb-200-distilled-600M)
+                        model ID; see https://huggingface.co/models?other=nllb (default: facebook/nllb-200-distilled-600M)
   -msl MAX_SRC_LEN, --max-src-len MAX_SRC_LEN
                         max source len; longer seqs will be truncated (default: 250)
 ```
