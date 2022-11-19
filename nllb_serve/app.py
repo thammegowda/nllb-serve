@@ -2,12 +2,11 @@
 """
 Serves an NLLB MT model using Flask HTTP server
 """
-import logging
 import os
 import sys
 import platform
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-import logging as log
+
 from functools import lru_cache
 import time
 
@@ -16,12 +15,11 @@ from flask import Flask, request, send_from_directory, Blueprint
 import transformers
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-
+from . import log, DEF_MODEL_ID
 from .utils import max_RSS
 
 
-log.basicConfig(level=log.INFO)
-DEF_MODEL_ID = "facebook/nllb-200-distilled-600M"
+#DEF_MODEL_ID = "facebook/nllb-200-distilled-600M"
 DEF_SRC_LNG = 'eng_Latn'
 DEF_TGT_LNG = 'kan_Knda'
 FLOAT_POINTS = 4

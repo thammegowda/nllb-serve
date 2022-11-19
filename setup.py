@@ -37,7 +37,10 @@ setup(name="nllb-serve",
       install_requires=reqs,
       include_package_data=True,
       zip_safe=False,
-      entry_points={"console_scripts": "nllb-serve=nllb_serve.app:main"},
+      entry_points={"console_scripts": [
+          "nllb-serve=nllb_serve.app:main",
+          "nllb-batch=nllb_serve.nllb_batch:main"]
+          },
       classifiers=[
           "Programming Language :: Python :: 3",
           "Programming Language :: Python :: 3.7",
