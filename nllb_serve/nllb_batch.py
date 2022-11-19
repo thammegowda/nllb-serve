@@ -19,10 +19,8 @@ class Translator:
     def __init__(self, model_id):
         self.model_id = model_id
         log.info(f"Loading model {model_id} ...")
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
-        log.info(f"Loading default tokenizer for {model_id} ...")
-        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
-
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_id).to(device)
+ 
     @lru_cache(maxsize=256)
     def get_tokenizer(self, src_lang):
         log.info(f"Loading tokenizer for {self.model_id}; src_lang={src_lang} ...")
@@ -32,8 +30,8 @@ class Translator:
     def translate_batch(self, src_sents: List[str], src_lang, tgt_lang, max_tgt_length=DEF_MAX_TGT_LEN):
         tokenizer = self.get_tokenizer(src_lang=src_lang)
         assert src_sents
-        inputs = tokenizer(src_sents, return_tensors="pt", padding=True,)
-
+        inputs = tokenizer(src_sents, return_tensors="pt", padding=True)
+        inputs = {k:v.to(device) for k, v in inputs.items()}
         translated_tokens = self.model.generate(
             **inputs, forced_bos_token_id=tokenizer.lang_code_to_id[tgt_lang],
             max_length = max_tgt_length)
