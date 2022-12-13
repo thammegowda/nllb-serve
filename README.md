@@ -78,6 +78,33 @@ $ curl -H "Content-Type: application/json" -X POST \
    --data '{"source": ["Comment allez-vous?"], "src_lang": "fra_Latn", "tgt_lang": "kan_Knda"}'
 ```
 
+## NLLB-Batch
+
+This CLI tool is for decoding a batch of data. While the REST API is optimized for translating single translation at once, `nllb-batch` is optmized for decoding a large files.
+
+```
+$ nllb-batch  --help
+INFO:root:torch device=cuda
+usage: nllb-batch [-h] [-mi MODEL_ID] -sl SRC_LANG -tl TGT_LANG [-i INP] [-o OUT] [-msl MAX_SRC_CHARS] [-b BATCH_SIZE]
+
+Serve NLLB model via command line
+
+options:
+  -h, --help            show this help message and exit
+  -mi MODEL_ID, --model-id MODEL_ID
+                        model ID; see https://huggingface.co/models?other=nllb (default: facebook/nllb-200-distilled-600M)
+  -sl SRC_LANG, --src-lang SRC_LANG
+                        source language identifier; eg: eng_Latn (default: None)
+  -tl TGT_LANG, --tgt-lang TGT_LANG
+                        Target language identifier; eg: eng_Latn (default: None)
+  -i INP, --inp INP     Input file (default: <_io.TextIOWrapper name='<stdin>' mode='r' encoding='utf-8'>)
+  -o OUT, --out OUT     Output file (default: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>)
+  -msl MAX_SRC_CHARS, --max-src-chars MAX_SRC_CHARS
+                        max source chars len; longer seqs will be truncated (default: 512)
+  -b BATCH_SIZE, --batch-size BATCH_SIZE
+                        Batch size; number of sentences (default: 10)
+```
+
 ## References
 * https://research.facebook.com/publications/no-language-left-behind/
 * https://huggingface.co/docs/transformers/main/en/model_doc/nllb
