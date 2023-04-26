@@ -1,5 +1,5 @@
-transformers==4.21
+transformers>=4.21
 Flask==2.1
-torch==1.12
+torch>=1.12
 gunicorn
 gevent

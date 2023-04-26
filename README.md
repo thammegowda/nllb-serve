@@ -15,19 +15,38 @@ nllb-serve -h
 python -m nllb_serve -h
 ```
 
-## Start Serve
+## Start Serving
 
 ```bash
 # Either one of these should work
 nllb-serve
 # or
 python -m nllb_serve
+
+# Use CPU, ignore GPUs even if they exist
+CUDA_VISIBLE_DEVICES= nllb-serve
+
+# Use GPU device 0
+CUDA_VISIBLE_DEVICES=0 nllb-serve
 ```
 
 This starts a service on http://localhost:6060 by default.
 
 <img src="docs/webui-demo.png" width=600px/>
 
+**Cuda and Torch Compatibility Issues**
+```bash
+# check 1:
+$ python -c 'import torch; print(torch.cuda.is_available())'
+True
+
+# Check 2: match the version of installed cudatookit with the version for which torch bins were compiled
+# if exactly matching the versions is not possible/difficult, try getting the versions as close as possible
+$ python -c 'import torch; print(torch.version.cuda)'
+11.7
+$  nvidia-smi  | grep -o 'CUDA.*'
+CUDA Version: 12.0
+```
 
 
 **CLI options:**
@@ -53,7 +72,6 @@ optional arguments:
 
 ## REST API
 
-
 * `/translate` end point accepts GET and POST requests with the following args:
   * `source` -- source text. Can be a single string or a batch (i.e., list of strings)
   * `src_lang` -- source language ID, e.g., `eng_Latn`
@@ -78,9 +96,11 @@ $ curl -H "Content-Type: application/json" -X POST \
    --data '{"source": ["Comment allez-vous?"], "src_lang": "fra_Latn", "tgt_lang": "kan_Knda"}'
 ```
 
+List of language codes: https://huggingface.co/facebook/nllb-200-distilled-600M/blob/main/special_tokens_map.json 
+
 ## NLLB-Batch
 
-This CLI tool is for decoding a batch of data. While the REST API is optimized for translating single translation at once, `nllb-batch` is optmized for decoding a large files.
+This CLI tool is for decoding batches of data. While the REST API is optimized for translating single translation at once, `nllb-batch` is optmized for decoding a large files.
 
 ```
 $ nllb-batch  --help
@@ -104,6 +124,15 @@ options:
   -b BATCH_SIZE, --batch-size BATCH_SIZE
                         Batch size; number of sentences (default: 10)
 ```
+
+## License
+
+The code and model weights carry different licenses. 
+The code in this repository is distributed via [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).  
+But the model weights are accessed from Huggingface Hub and the original license of model weigts are applicable.
+At the time of writing, authors of NLLB model distributed weights via CC-BY-NC-4.0 license. Read more at [LICENSE.model.md](https://github.com/facebookresearch/fairseq/blob/nllb/LICENSE.model.md) and [Creative Commons License](https://en.wikipedia.org/wiki/Creative_Commons_license)
+
+
 
 ## References
 * https://research.facebook.com/publications/no-language-left-behind/

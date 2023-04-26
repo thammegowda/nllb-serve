@@ -12,11 +12,14 @@ import time
 
 import flask
 from flask import Flask, request, send_from_directory, Blueprint
+import torch
 import transformers
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from . import log, DEF_MODEL_ID
-from .utils import max_RSS
+
+device = torch.device(torch.cuda.is_available() and 'cuda' or 'cpu')
+log.info(f'torch device={device}')
 
 
 #DEF_MODEL_ID = "facebook/nllb-200-distilled-600M"
@@ -36,19 +39,17 @@ sys_info = {
     'Platform': platform.platform(),
     'Platform Version': platform.version(),
     'Processor':  platform.processor(),
-    'CPU Memory Used': max_RSS()[1],
-    #'GPU': '[unavailable]',
+    'GPU': '[unavailable]',
 }
 try:
-    import torch
-    #torch.set_grad_enabled(False)
     sys_info['torch']: torch.__version__
     if torch.cuda.is_available():
-        sys_info['GPU'] = str(torch.cuda.get_device_properties())
+        sys_info['GPU'] = str(torch.cuda.get_device_properties('cuda'))
         sys_info['Cuda Version'] = torch.version.cuda
     else:
         log.warning("CUDA unavailable")
 except:
+    log.exception("Error while checking if cuda is available")
     pass
 
 def render_template(*args, **kwargs):
@@ -82,9 +83,10 @@ def attach_translate_route(
     model_id=DEF_MODEL_ID, def_src_lang=DEF_SRC_LNG,
     def_tgt_lang=DEF_TGT_LNG, **kwargs):
     sys_info['model_id'] = model_id
+    torch.set_grad_enabled(False)
 
     log.info(f"Loading model {model_id} ...")
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_id).to(device).eval()
     log.info(f"Loading default tokenizer for {model_id} ...")
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     src_langs = tokenizer.additional_special_tokens
@@ -130,7 +132,8 @@ def attach_translate_route(
         if not sources:
             return "Please submit 'source' parameter", 400
         max_length = 80
-        inputs = tokenizer(sources, return_tensors="pt", padding=True,)
+        inputs = tokenizer(sources, return_tensors="pt", padding=True)
+        inputs = {k:v.to(device) for k, v in inputs.items()}
 
         translated_tokens = model.generate(
             **inputs, forced_bos_token_id=tokenizer.lang_code_to_id[tgt_lang],
@@ -145,7 +148,6 @@ def attach_translate_route(
 
     @bp.route('/about')
     def about():
-        sys_info['CPU Memory Used'] = max_RSS()[1]
         return render_template('about.html', sys_info=sys_info)
 
 
@@ -153,6 +155,7 @@ def parse_args():
     parser = ArgumentParser(
         prog="nllb-serve",
         description="Deploy NLLB model to a RESTful server",
+        epilog=f'Loaded from {__file__}. Source code: https://github.com/thammegowda/nllb-serve',
         formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument("-d", "--debug", action="store_true", help="Run Flask server in debug mode")
     parser.add_argument("-p", "--port", type=int, help="port to run server on", default=6060)
