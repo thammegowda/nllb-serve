@@ -15,19 +15,38 @@ nllb-serve -h
 python -m nllb_serve -h
 ```
 
-## Start Serve
+## Start Serving
 
 ```bash
 # Either one of these should work
 nllb-serve
 # or
 python -m nllb_serve
+
+# Use CPU, ignore GPUs even if they exist
+CUDA_VISIBLE_DEVICES= nllb-serve
+
+# Use GPU device 0
+CUDA_VISIBLE_DEVICES=0 nllb-serve
 ```
 
 This starts a service on http://localhost:6060 by default.
 
 <img src="docs/webui-demo.png" width=600px/>
 
+**Cuda and Torch Compatibility Issues**
+```bash
+# check 1:
+$ python -c 'import torch; print(torch.cuda.is_available())'
+True
+
+# Check 2: match the version of installed cudatookit with the version for which torch bins were compiled
+# if exactly matching the versions is not possible/difficult, try getting the versions as close as possible
+$ python -c 'import torch; print(torch.version.cuda)'
+11.7
+$  nvidia-smi  | grep -o 'CUDA.*'
+CUDA Version: 12.0
+```
 
 
 **CLI options:**
