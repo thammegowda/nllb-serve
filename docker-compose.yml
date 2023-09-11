@@ -8,19 +8,9 @@ services:
     ports:
       - 5001:5001
     volumes:
-      - ./nllb_serve:/app/nllb_serve
-    entrypoint: [ "gunicorn" ]
-    command:
-      [
-        "nllb_serve.app:app",
-        "-b",
-        "0.0.0.0:5001",
-        "-k",
-        "gevent",
-        "-w",
-        "4",
-        "--threads",
-        "8",
-        "--timeout",
-        "6000"
-      ]
+      - ./:/app/
+    entrypoint: [
+      "python3",
+      "-m", "nllb_serve",
+      "-mi", "facebook/nllb-200-3.3B"
+    ]
