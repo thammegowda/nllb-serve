@@ -52,3 +52,4 @@ setup(name="nllb-serve",
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
       ],
       )
+
