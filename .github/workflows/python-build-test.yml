@@ -39,6 +39,4 @@ jobs:
     - name: check nllb-batch
       run: |
         nllb-batch -h
-    - name: check nllb-batch
-      run: |
         nllb-batch -i <(echo "Hello. This is a test sentence.") -sl eng_Latn -tl kan_Knda
