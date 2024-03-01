@@ -6,11 +6,16 @@ This project offers a web interface and REST API to Meta's No Language Left Behi
 ## Setup
 
 ```bash
+# Option1:  insteall as read only 
+pip install git+https://github.com/thammegowda/nllb-serve
+
+# Option2: Developer setup for editable mode
 git clone  https://github.com/thammegowda/nllb-serve
 cd nllb-serve
 pip install -e .
 
-# either one of these should work
+
+# Entry point: either one of these options should work
 nllb-serve -h
 python -m nllb_serve -h
 ```
@@ -100,7 +105,7 @@ List of language codes: https://huggingface.co/facebook/nllb-200-distilled-600M/
 
 ## NLLB-Batch
 
-This CLI tool is for decoding batches of data. While the REST API is optimized for translating single translation at once, `nllb-batch` is optmized for decoding a large files.
+This CLI tool is for decoding batches of data. While the REST API is optimized for translating single translation at once, `nllb-batch` is optmized for decoding large files.
 
 ```
 $ nllb-batch  --help
