@@ -6,10 +6,10 @@ This project offers a web interface and REST API to Meta's No Language Left Behi
 ## Setup
 
 ```bash
-# Option1:  insteall as read only 
+# Option 1: install as read only; recommended to use as is
 pip install git+https://github.com/thammegowda/nllb-serve
 
-# Option2: Developer setup for editable mode
+# Option 2: install for editable mode; recommended if you'd like to modify code
 git clone  https://github.com/thammegowda/nllb-serve
 cd nllb-serve
 pip install -e .
@@ -20,7 +20,7 @@ nllb-serve -h
 python -m nllb_serve -h
 ```
 
-## Start Serving
+## Start server
 
 ```bash
 # Either one of these should work
