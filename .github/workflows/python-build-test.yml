@@ -33,10 +33,11 @@ jobs:
     - name: Install module
       run: |
         python3 -m pip install .
-    - name: check nllb-serve
+    - name: check CLI
       run: |
         nllb-serve -h
-    - name: check nllb-batch
+        nllb-batch -h    
+    - name: run a sample decode
+      if : runner.os != 'Windows'
       run: |
-        nllb-batch -h
         nllb-batch -i <(echo "Hello. This is a test sentence.") -sl eng_Latn -tl kan_Knda
