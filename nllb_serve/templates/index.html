@@ -3,7 +3,7 @@
 {% block content %}
 <p class="text-center fs-3">{% block title %} No Language Left Behind {% endblock %}</p>
   <p class="text-center fs-5">Currently serving <code>{{model_id}}</code></p>
-  <form id="source-form" class="form container" action="./translate">
+  <form id="source-form" class="form container-fluid" action="./translate">
     <div class="row">
       <div class="form-group col-5">
           <div class="row">
@@ -18,7 +18,7 @@
           </div>
       </div>
       <div class="col-2">
-          <button id="button-swap" type="button" class="btn btn-outline">Swap 🔁</button>
+          <button id="button-swap" type="button" class="btn btn-outline-secondary">Swap 🔁</button>
       </div>
       <div class="form-group col-5">
           <div class="row">
@@ -36,24 +36,28 @@
   <br>
 
   <div class="row">
-    <div class="col-6 alert alert-primary">
-        <div class="form-group row">
-          <textarea id="source_txt" name="source" rows="6" class="form-control form-control-lg form-control-plaintext"
+    <div class="col-6">
+        <div class="form-group row alert alert-primary">
+          <textarea id="source_txt" name="source" rows="6" class="form-control form-control-lg form-control-plaintext p-2"
             placeholder="Source Text Here..."></textarea>
         </div>
+        <div class="float-end row">
         <button type="submit" class="btn btn-primary float-right">Translate→</button>
+      </div>
     </div>
-    <div class="col-6 alert alert-success">
-      <div class="form-group row">
+    <div class="col-6">
+      <div class="form-group row alert alert-success">
         <textarea id="target" rows="6" class="form-control form-control-lg form-control-plaintext"
           placeholder="Translation (to-appear)"></textarea>
       </div>
-      <div id="loading-progress" style="display: none;" class="spinner-border text-success float-right" role="status">
-        <span class="sr-only">Loading...</span>
+      <div class="float-end row">
+      <div id="loading-progress" style="display:none" class="spinner-border text-dark text-success col-auto" role="status">
+        <!-- <span class="sr-only">Loading...</span> -->
       </div>
-      <p class="text float-left" id="time-taken">...</p>
-      <button type="submit" class="btn btn-primary float-right btn-success" onclick="copyToClipboard()">Copy to
+      <p class="text col-auto" id="time-taken">...</p>
+      <button type="submit" class="btn btn-primary float-right btn-success col-auto" onclick="copyToClipboard()">Copy to
         Clipboard</button>
+      </div>
     </div>
   </div>
 </form>
