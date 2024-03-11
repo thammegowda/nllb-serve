@@ -16,8 +16,8 @@
                   </select>
               </div>
               <div class="form-check form-switch col-sm-2">
-                <input class="form-check-input" type="checkbox" id="toggelbutton">
-                <label class="form-check-label" for="toggelbutton">Sentence split</label>
+                <input class="form-check-input" type="checkbox" id="ssplit_checkbox">
+                <label class="form-check-label" for="ssplit_checkbox">Sentence split</label>
               </div>
           </div>
       </div>
@@ -114,7 +114,7 @@
       source = $('#source_txt').val().trim().split('\n')
       src_lang = $('#src_lang').val()
       tgt_lang = $('#tgt_lang').val()
-      sen_split = $('#toggelbutton').prop('checked') 
+      sen_split = $('#ssplit_checkbox').prop('checked') 
 
       data = JSON.stringify({
         'source': source,
