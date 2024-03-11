@@ -3,7 +3,7 @@
 {% block content %}
 <p class="text-center fs-3">{% block title %} No Language Left Behind {% endblock %}</p>
   <p class="text-center fs-5">Currently serving <code>{{model_id}}</code></p>
-  <form id="source-form" class="form container-fluid" action="./translate">
+  <form id="source-form" class="form container" action="./translate">
     <div class="row">
       <div class="form-group col-5">
           <div class="row">
@@ -14,6 +14,10 @@
                       <option {% if def_src_lang == src_lang %} selected {% endif %}>{{src_lang}}</option>
                       {% endfor %}
                   </select>
+              </div>
+              <div class="form-check form-switch col-sm-2">
+                <input class="form-check-input" type="checkbox" id="ssplit_checkbox">
+                <label class="form-check-label" for="ssplit_checkbox">Sentence split</label>
               </div>
           </div>
       </div>
@@ -110,11 +114,13 @@
       source = $('#source_txt').val().trim().split('\n')
       src_lang = $('#src_lang').val()
       tgt_lang = $('#tgt_lang').val()
+      sen_split = $('#ssplit_checkbox').prop('checked') 
 
       data = JSON.stringify({
         'source': source,
         'src_lang': src_lang,
-        'tgt_lang': tgt_lang
+        'tgt_lang': tgt_lang,
+        'sen_split': sen_split
       })
       console.log(data);
 
@@ -125,8 +131,8 @@
       });
 
       posting.done(update_view)
-      posting.fail(function () {
-        alert("Something went wrong🤒! Check console logs.");
+      posting.fail(function (result) {
+        alert(result.responseText);
         $('#target').text('');
       });
     });

@@ -4,3 +4,4 @@ Werkzeug>=3.0.0
 torch>=1.12
 gunicorn
 gevent
+sentence-splitter

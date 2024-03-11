@@ -6,6 +6,7 @@ import os
 import sys
 import platform
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from .utils import sentence_splitter, ssplit_lang
 
 from functools import lru_cache
 import time
@@ -20,7 +21,6 @@ from . import log, DEF_MODEL_ID
 
 device = torch.device(torch.cuda.is_available() and 'cuda' or 'cpu')
 log.info(f'torch device={device}')
-
 
 #DEF_MODEL_ID = "facebook/nllb-200-distilled-600M"
 DEF_SRC_LNG = 'eng_Latn'
@@ -77,8 +77,6 @@ def jsonify(obj):
 def favicon():
     return send_from_directory(os.path.join(bp.root_path, 'static', 'favicon'), 'favicon.ico')
 
-
-
 def attach_translate_route(
     model_id=DEF_MODEL_ID, def_src_lang=DEF_SRC_LNG,
     def_tgt_lang=DEF_TGT_LNG, **kwargs):
@@ -127,10 +125,18 @@ def attach_translate_route(
 
         src_lang = args.get('src_lang') or def_src_lang
         tgt_lang = args.get('tgt_lang') or def_tgt_lang
+        sen_split = args.get('sen_split')
+                        
         tokenizer = get_tokenizer(src_lang=src_lang)
 
         if not sources:
             return "Please submit 'source' parameter", 400
+        
+        if sen_split:
+            if not ssplit_lang(src_lang):
+                return "Sentence splitter for this langauges is not availabe", 400 
+            sources, index  = sentence_splitter(src_lang, sources)           
+        
         max_length = 80
         inputs = tokenizer(sources, return_tensors="pt", padding=True)
         inputs = {k:v.to(device) for k, v in inputs.items()}
@@ -139,8 +145,16 @@ def attach_translate_route(
             **inputs, forced_bos_token_id=tokenizer.lang_code_to_id[tgt_lang],
             max_length = max_length)
         output = tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)
-
-        res = dict(source=sources, translation=output,
+        
+        if sen_split:
+            results = []           
+            for i in range(1, len(index)):
+                batch = output[index[i-1]:index[i]]
+                results.append(" ".join(batch))
+        else:
+            results = output 
+                    
+        res = dict(source=sources, translation=results,
                    src_lang = src_lang, tgt_lang=tgt_lang,
                    time_taken = round(time.time() - st, 3), time_units='s')
 
