@@ -1,4 +1,5 @@
 # NLLB Serve
+[![image](http://img.shields.io/pypi/v/nllb-serve.svg)](https://pypi.python.org/pypi/nllb-serve/)
 
 This project offers a web interface and REST API to Meta's No Language Left Behind (NLLB) models that can translate across 200 languages.
 
