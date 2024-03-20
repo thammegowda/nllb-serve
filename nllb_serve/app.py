@@ -28,7 +28,7 @@ DEF_TGT_LNG = 'kan_Knda'
 FLOAT_POINTS = 4
 exp = None
 app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
+app.json.ensure_ascii = False
 
 bp = Blueprint('nmt', __name__, template_folder='templates', static_folder='static')
 
