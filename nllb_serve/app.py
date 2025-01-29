@@ -18,8 +18,8 @@ import transformers
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from . import log, DEF_MODEL_ID
-
-device = torch.device(torch.cuda.is_available() and 'cuda' or 'cpu')
+os.environ['CUDA_VISIBLE_DEVICES'] = ''
+device = torch.device('cpu')
 log.info(f'torch device={device}')
 
 #DEF_MODEL_ID = "facebook/nllb-200-distilled-600M"
