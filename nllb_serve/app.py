@@ -18,7 +18,14 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from . import DEF_MODEL_ID, log
 from .utils import sentence_splitter, ssplit_lang
 
-device = torch.device(torch.cuda.is_available() and 'cuda' or 'cpu')
+if torch.cuda.is_available():
+    device = torch.device('cuda')
+elif torch.backends.mps.is_available():
+    device = torch.device('mps')
+else:
+    # fallback to CPU
+    log.warning("CUDA or MPS not available, using CPU; performance may be slow")
+    device = torch.device('cpu')
 log.info(f'torch device={device}')
 
 # DEF_MODEL_ID = "facebook/nllb-200-distilled-600M"
@@ -41,10 +48,12 @@ sys_info = {
     'GPU': '[unavailable]',
 }
 try:
-    sys_info['torch']: torch.__version__
+    sys_info['torch'] = torch.__version__
     if torch.cuda.is_available():
         sys_info['GPU'] = str(torch.cuda.get_device_properties('cuda'))
         sys_info['Cuda Version'] = torch.version.cuda
+    elif torch.backends.mps.is_available():
+        sys_info['GPU'] = 'Apple MPS'
     else:
         log.warning("CUDA unavailable")
 except:
