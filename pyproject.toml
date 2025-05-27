@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nllb-serve"
+dynamic = ["version", "dependencies"]
+description = "NLLB Serve"
+authors = [
+    {name = "Thamme Gowda", email = "tgowdan@gmail.com"}
+]
+license = {text = "Apache"}
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/thammegowda/nllb-serve"
+Documentation = "https://github.com/thammegowda/nllb-serve"
+Repository = "https://github.com/thammegowda/nllb-serve"
+
+[project.optional-dependencies]
+dev = ["setuptools", "wheel", "black", "isort"]
+
+[tool.setuptools.packages.find]
+include = ["nllb_serve*"]
+
+[project.scripts]
+nllb-serve = "nllb_serve.app:main"
+nllb-batch = "nllb_serve.nllb_batch:main"
+
+
+[tool.setuptools.dynamic]
+version = {attr = "nllb_serve.__version__"}
+dependencies = {file = "requirements.txt"}
+
+
+[tool.black]
+line-length = 110
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312', 'py313']
+include = '\.pyi?$'
+skip-string-normalization = true
+
+[tool.pytest.ini_options]
+addopts = " -v"

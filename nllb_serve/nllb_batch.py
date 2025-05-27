@@ -33,7 +33,7 @@ class Translator:
         inputs = tokenizer(src_sents, return_tensors="pt", padding=True)
         inputs = {k:v.to(device) for k, v in inputs.items()}
         translated_tokens = self.model.generate(
-            **inputs, forced_bos_token_id=tokenizer.lang_code_to_id[tgt_lang],
+            **inputs, forced_bos_token_id=tokenizer.convert_tokens_to_ids([tgt_lang])[0],
             max_length = max_tgt_length)
         output = tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)
         return output
