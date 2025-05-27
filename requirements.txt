@@ -1,4 +1,4 @@
-transformers>=4.21
+transformers>=4.38
 Flask==3.0.2
 Werkzeug>=3.0.0
 torch>=1.12
