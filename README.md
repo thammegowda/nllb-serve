@@ -21,6 +21,11 @@ nllb-serve -h
 python -m nllb_serve -h
 ```
 
+## Docker
+
+    docker build -t nllb-serve-cpu .
+    docker run -p 6060:6060 --name nllb-cpu-trad nllb-serve-cpu
+
 ## Start server
 
 ```bash
@@ -130,6 +135,9 @@ options:
   -b BATCH_SIZE, --batch-size BATCH_SIZE
                         Batch size; number of sentences (default: 10)
 ```
+
+## Additional
+If you want to use this server to translate web pages with the Firefox/Chrome browser, you can use the extension   [linguist-NLLB-translator](https://github.com/MoonDragon-MD/linguist-NLLB-translator)
 
 ## License
 

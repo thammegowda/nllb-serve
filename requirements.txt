@@ -1,7 +1,8 @@
-transformers>=4.21
+torch==1.13.1+cpu
+transformers==4.37.0
 Flask==3.0.2
 Werkzeug>=3.0.0
-torch>=1.12
-gunicorn
+gunicorn==20.1.0
 gevent
 sentence-splitter
+sentencepiece==0.1.99
